@@ -3,7 +3,7 @@ package depth.mju.festival.domain.notice.application;
 import depth.mju.festival.domain.common.Status;
 import depth.mju.festival.domain.notice.domain.Notice;
 import depth.mju.festival.domain.notice.domain.repository.NoticeRepository;
-import depth.mju.festival.domain.notice.dto.request.CreateNoticeReq;
+import depth.mju.festival.domain.notice.dto.request.NoticeReq;
 import depth.mju.festival.domain.notice.dto.response.NoticeRes;
 import depth.mju.festival.domain.school.domain.School;
 import depth.mju.festival.domain.school.domain.repository.SchoolRepository;
@@ -54,12 +54,9 @@ public class NoticeService {
 
     // 공지 상세 조회
     public NoticeRes findNoticeDetail(Long noticeId) {
-        Notice notice = noticeRepository.findById(noticeId)
+        Notice notice = noticeRepository.findByIdAndStatus(noticeId, Status.ACTIVE)
                 .orElseThrow(() -> new DefaultException(ErrorCode.NOT_FOUND_ERROR, "유효한 값이 아닙니다."));
-        // 유효성 검증
-        if (notice.getStatus() == Status.DELETE) {
-            throw new DefaultException(ErrorCode.NOT_VALID_ERROR, "유효한 값이 아닙니다.");
-        }
+
         return NoticeRes.builder()
                 .noticeId(notice.getId())
                 .title(notice.getTitle())
@@ -70,7 +67,7 @@ public class NoticeService {
 
     // 공지 등록
     @Transactional
-    public Notice createNotice(CreateNoticeReq noticeReq) {
+    public Notice createNotice(NoticeReq noticeReq) {
         return Notice.builder()
                 .title(noticeReq.getTitle())
                 .content(noticeReq.getContent())
@@ -93,5 +90,4 @@ public class NoticeService {
         notice.updateStatus(Status.DELETE);
     }
 
-    // 공지 수정
 }
