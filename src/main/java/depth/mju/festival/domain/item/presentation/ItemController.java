@@ -5,18 +5,16 @@ import depth.mju.festival.domain.item.domain.Category;
 import depth.mju.festival.global.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/items")
-public class ItemController {
+public class ItemController implements ItemApi {
 
     private final ItemService itemService;
 
+    @Override
     @GetMapping
     public ResponseEntity<ApiResponse> findLostItems(
             @RequestParam(defaultValue = "CLOTHES") Category category
@@ -26,6 +24,15 @@ public class ItemController {
                 .information(itemService.findLostItemsByCategory(category))
                 .build();
         return ResponseEntity.ok(apiResponse);
+    }
+
+    @Override
+    @DeleteMapping("/{itemId}")
+    public ResponseEntity<Void> deleteLostItem(
+            @PathVariable Long itemId
+    ) {
+        itemService.deleteLostItem(itemId);
+        return ResponseEntity.noContent().build();
     }
 
 
