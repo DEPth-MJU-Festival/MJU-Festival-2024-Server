@@ -1,4 +1,4 @@
-package depth.mju.festival.global.error;
+package depth.mju.festival.global.exception;
 
 import lombok.Getter;
 

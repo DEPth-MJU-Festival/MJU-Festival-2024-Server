@@ -1,4 +1,4 @@
-package depth.mju.festival.global.error;
+package depth.mju.festival.global.exception;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
