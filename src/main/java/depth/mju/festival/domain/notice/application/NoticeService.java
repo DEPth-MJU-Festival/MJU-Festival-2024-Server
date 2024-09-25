@@ -38,7 +38,7 @@ public class NoticeService {
                         .noticeId(notice.getId())
                         .title(notice.getTitle())
                         .content(notice.getContent())
-                        .createdDate(notice.getCreatedDate().toLocalDate())
+                        .createdDate(notice.getCreatedDate())
                         .build())
                 .collect(Collectors.toList());
 

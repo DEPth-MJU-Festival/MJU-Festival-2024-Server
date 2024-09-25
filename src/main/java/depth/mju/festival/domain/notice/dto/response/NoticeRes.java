@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
@@ -21,12 +22,12 @@ public class NoticeRes {
     @Schema(type = "String", example = "축제 일정은 10월 7일 월요일부터 8일 화요일까지이며...", description = "공지의 내용입니다.")
     private String content;
 
-    @Schema(type = "LocalDate", example = "2024-04-26", description = "공지의 작성일입니다.")
-    @JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING)
-    private LocalDate createdDate;
+    @Schema(type = "LocalDate", example = "2024-04-26 10:24", description = "공지의 작성일시입니다.")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm", shape = JsonFormat.Shape.STRING)
+    private LocalDateTime createdDate;
 
     @Builder
-    public NoticeRes(Long noticeId, String title, String content, LocalDate createdDate) {
+    public NoticeRes(Long noticeId, String title, String content, LocalDateTime createdDate) {
         this.noticeId = noticeId;
         this.title = title;
         this.content = content;
