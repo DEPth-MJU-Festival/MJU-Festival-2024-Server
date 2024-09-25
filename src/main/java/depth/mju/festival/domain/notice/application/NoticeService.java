@@ -56,6 +56,10 @@ public class NoticeService {
     public NoticeRes findNoticeDetail(Long noticeId) {
         Notice notice = noticeRepository.findById(noticeId)
                 .orElseThrow(() -> new DefaultException(ErrorCode.NOT_FOUND_ERROR, "유효한 값이 아닙니다."));
+        // 유효성 검증
+        if (notice.getStatus() == Status.DELETE) {
+            throw new DefaultException(ErrorCode.NOT_VALID_ERROR, "유효한 값이 아닙니다.");
+        }
         return NoticeRes.builder()
                 .noticeId(notice.getId())
                 .title(notice.getTitle())
