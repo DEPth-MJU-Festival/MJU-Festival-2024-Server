@@ -14,10 +14,11 @@ import java.net.URI;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/notices")
-public class NoticeController {
+public class NoticeController implements NoticeApi {
 
     private final NoticeService noticeService;
 
+    @Override
     @GetMapping
     public ResponseEntity<ApiResponse> findNotices(
             @RequestParam(defaultValue = "1") int page,
@@ -30,6 +31,7 @@ public class NoticeController {
         return ResponseEntity.ok(apiResponse);
     }
 
+    @Override
     @GetMapping("/{noticeId}")
     public ResponseEntity<ApiResponse> findNoticeDetail(
             @PathVariable Long noticeId
@@ -41,11 +43,21 @@ public class NoticeController {
         return ResponseEntity.ok(apiResponse);
     }
 
+    @Override
     @PostMapping()
     public ResponseEntity<Void> registerNotice(
             @Valid @RequestBody CreateNoticeReq createNoticeReq
     ) {
         Notice notice = noticeService.createNotice(createNoticeReq);
         return ResponseEntity.created(URI.create("/api/v1/notices" + notice.getId())).build();
+    }
+
+    @Override
+    @DeleteMapping("/{noticeId}")
+    public ResponseEntity<Void> deleteNotice(
+            @PathVariable Long noticeId
+    ) {
+        noticeService.deleteNotice(noticeId);
+        return ResponseEntity.noContent().build();
     }
 }

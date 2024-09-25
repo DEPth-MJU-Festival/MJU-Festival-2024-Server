@@ -85,6 +85,13 @@ public class NoticeService {
 
 
     // 공지 삭제
+    @Transactional
+    public void deleteNotice(Long noticeId){
+        Notice notice = noticeRepository.findById(noticeId)
+                .orElseThrow(() -> new DefaultException(ErrorCode.NOT_FOUND_ERROR, "유효한 값이 아닙니다."));
+        // SOFT DELETE
+        notice.updateStatus(Status.DELETE);
+    }
 
     // 공지 수정
 }
