@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Tag(name = "공지사항 API", description = "공지사항과 관련한 API입니다.")
@@ -38,5 +39,20 @@ public interface NoticeApi {
     ResponseEntity<depth.mju.festival.global.response.ApiResponse> findNotices(
             @Parameter(description = "페이지의 번호를 입력해주세요. 기본값은 1이며 페이지는 1부터 시작합니다.", required = true) @RequestParam(defaultValue = "1") int page,
             @Parameter(description = "페이지 내 요소의 개수입니다. 기본값은 6입니다.") @RequestParam(defaultValue = "6") int size
+    );
+
+    @Operation(summary = "공지사항 상세 조회", description = "공지사항을 상세 조회합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200", description = "공지사항 상세 조회 성공",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = NoticeRes.class))}
+            ),
+            @ApiResponse(
+                    responseCode = "400", description = "조회 실패",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))}),
+    })
+    @GetMapping("/{noticeId}")
+    ResponseEntity<depth.mju.festival.global.response.ApiResponse> findNoticeDetail(
+            @Parameter(description = "공지사항의 id를 입력해주세요.", required = true) @PathVariable Long noticeId
     );
 }

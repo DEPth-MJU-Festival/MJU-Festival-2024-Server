@@ -4,10 +4,7 @@ import depth.mju.festival.domain.notice.application.NoticeService;
 import depth.mju.festival.global.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -24,6 +21,17 @@ public class NoticeController {
         ApiResponse apiResponse = ApiResponse.builder()
                 .check(true)
                 .information(noticeService.findAllNotice(page, size))
+                .build();
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @GetMapping("/{noticeId}")
+    public ResponseEntity<ApiResponse> findNoticeDetail(
+            @PathVariable Long noticeId
+    ) {
+        ApiResponse apiResponse = ApiResponse.builder()
+                .check(true)
+                .information(noticeService.findNoticeDetail(noticeId))
                 .build();
         return ResponseEntity.ok(apiResponse);
     }

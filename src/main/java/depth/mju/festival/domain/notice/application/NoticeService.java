@@ -4,6 +4,8 @@ import depth.mju.festival.domain.common.Status;
 import depth.mju.festival.domain.notice.domain.Notice;
 import depth.mju.festival.domain.notice.domain.repository.NoticeRepository;
 import depth.mju.festival.domain.notice.dto.response.NoticeRes;
+import depth.mju.festival.global.exception.DefaultException;
+import depth.mju.festival.global.exception.ErrorCode;
 import depth.mju.festival.global.response.PageInfo;
 import depth.mju.festival.global.response.PageResponse;
 import lombok.RequiredArgsConstructor;
@@ -47,6 +49,16 @@ public class NoticeService {
     }
 
     // 공지 상세 조회
+    public NoticeRes findNoticeDetail(Long noticeId) {
+        Notice notice = noticeRepository.findById(noticeId)
+                .orElseThrow(() -> new DefaultException(ErrorCode.NOT_FOUND_ERROR, "유효한 값이 아닙니다."));
+        return NoticeRes.builder()
+                .noticeId(notice.getId())
+                .title(notice.getTitle())
+                .content(notice.getContent())
+                .createdDate(notice.getCreatedDate())
+                .build();
+    }
 
     // 공지 등록
 
