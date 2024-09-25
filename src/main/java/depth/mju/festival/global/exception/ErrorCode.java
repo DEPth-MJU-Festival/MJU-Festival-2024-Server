@@ -39,9 +39,6 @@ public enum ErrorCode {
     // com.google.gson JSON 파싱 실패
     JSON_PARSE_ERROR(400, "G006", "JsonParseException"),
 
-    // com.fasterxml.jackson.core Processing Error
-    JACKSON_PROCESS_ERROR(400, "G007", "com.fasterxml.jackson.core Exception"),
-
     // 권한이 없음
     FORBIDDEN_ERROR(403, "G008", "Forbidden Exception"),
 
@@ -54,42 +51,12 @@ public enum ErrorCode {
     // @RequestBody 및 @RequestParam, @PathVariable 값이 유효하지 않음
     NOT_VALID_ERROR(404, "G011", "Validation Exception"),
 
-    // @RequestBody 및 @RequestParam, @PathVariable 값이 유효하지 않음
-    NOT_VALID_HEADER_ERROR(404, "G012", "Header에 데이터가 존재하지 않는 경우 "),
-
     CONFLICT(409, "G013", "Data Integrity Violation Exception"),
 
     // 서버가 처리 할 방법을 모르는 경우 발생
-    INTERNAL_SERVER_ERROR(500, "G999", "Internal Server Error Exception"),
+    INTERNAL_SERVER_ERROR(500, "G999", "Internal Server Error Exception");
 
 
-    /**
-     * ******************************* Custom Error CodeList ***************************************
-     */
-    // Transaction Insert Error
-    INSERT_ERROR(200, "9999", "Insert Transaction Error Exception"),
-
-    // Transaction Update Error
-    UPDATE_ERROR(200, "9999", "Update Transaction Error Exception"),
-
-    // Transaction Delete Error
-    DELETE_ERROR(200, "9999", "Delete Transaction Error Exception"),
-
-    // Business Error
-    BUSINESS_EXCEPTION_ERROR(400, "B999", "Business Exception Error"),
-
-    NETWORK_AUTHENTICATION_REQUIRED(511, "B998", "Network Authentication Required"),
-
-    ILLEGAL_ARGUMENT_EXCEPTION_ERROR(400, "B997", "Illegal Argument Exception Error"),
-
-    ARRAY_INDEX_OUT_OF_BOUNDS_ERROR(400, "B996", "Array Index Out of Bounds Error"),
-
-    INVALID_CHECK(400, "B995", "Invalid value")
-    ;
-
-    /**
-     * ******************************* Error Code Constructor ***************************************
-     */
     // 에러 코드의 '코드 상태'을 반환한다.
     private final int status;
 
