@@ -90,4 +90,13 @@ public class NoticeService {
         notice.updateStatus(Status.DELETE);
     }
 
+    // 공지 수정
+    @Transactional
+    public void updateNotice(Long noticeId, NoticeReq noticeReq) {
+        Notice notice = noticeRepository.findByIdAndStatus(noticeId, Status.ACTIVE)
+                .orElseThrow(() -> new DefaultException(ErrorCode.NOT_FOUND_ERROR, "유효한 값이 아닙니다."));
+
+        notice.updateTitleAndContent(noticeReq.getTitle(), noticeReq.getContent());
+    }
+
 }

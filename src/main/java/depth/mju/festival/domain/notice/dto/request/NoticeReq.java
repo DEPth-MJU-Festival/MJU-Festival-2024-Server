@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 
 @Getter
-public class CreateNoticeReq {
+public class NoticeReq {
 
     @NotBlank
     @Schema(type = "String", example = "[공지사항] 2024 축제 안내", description = "공지의 내용입니다.")

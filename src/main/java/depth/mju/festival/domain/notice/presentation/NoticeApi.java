@@ -1,8 +1,6 @@
 package depth.mju.festival.domain.notice.presentation;
 
-import depth.mju.festival.domain.item.domain.Category;
-import depth.mju.festival.domain.item.dto.response.ItemRes;
-import depth.mju.festival.domain.notice.dto.request.CreateNoticeReq;
+import depth.mju.festival.domain.notice.dto.request.NoticeReq;
 import depth.mju.festival.domain.notice.dto.response.NoticeRes;
 import depth.mju.festival.global.exception.ErrorResponse;
 import depth.mju.festival.global.response.PageResponse;
@@ -68,7 +66,7 @@ public interface NoticeApi {
     })
     @PostMapping
     ResponseEntity<Void> registerNotice(
-            @Parameter(description = "Schemas의 CreateNoticeReq를 참고해주세요.", required = true) @Valid @RequestBody CreateNoticeReq createNoticeReq
+            @Parameter(description = "Schemas의 NoticeReq를 참고해주세요.", required = true) @Valid @RequestBody NoticeReq noticeReq
     );
 
     @Operation(summary = "공지사항 삭제", description = "공지사항을 삭제합니다.")
@@ -81,8 +79,24 @@ public interface NoticeApi {
                     responseCode = "400", description = "삭제 실패",
                     content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))}),
     })
-    @GetMapping("/{noticeId}")
+    @DeleteMapping("/{noticeId}")
     ResponseEntity<Void> deleteNotice(
             @Parameter(description = "공지사항의 id를 입력해주세요.", required = true) @PathVariable Long noticeId
+    );
+
+    @Operation(summary = "공지사항 수정", description = "공지사항을 수정합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "204", description = "수정 성공",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Void.class))}
+            ),
+            @ApiResponse(
+                    responseCode = "400", description = "수정 실패",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))}),
+    })
+    @PutMapping("/{noticeId}")
+    ResponseEntity<Void> modifyNotice(
+            @Parameter(description = "공지사항의 id를 입력해주세요.", required = true) @PathVariable Long noticeId,
+            @Parameter(description = "Schemas의 NoticeReq를 참고해주세요.", required = true) @Valid @RequestBody NoticeReq noticeReq
     );
 }

@@ -2,7 +2,7 @@ package depth.mju.festival.domain.notice.presentation;
 
 import depth.mju.festival.domain.notice.application.NoticeService;
 import depth.mju.festival.domain.notice.domain.Notice;
-import depth.mju.festival.domain.notice.dto.request.CreateNoticeReq;
+import depth.mju.festival.domain.notice.dto.request.NoticeReq;
 import depth.mju.festival.global.response.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -46,9 +46,9 @@ public class NoticeController implements NoticeApi {
     @Override
     @PostMapping()
     public ResponseEntity<Void> registerNotice(
-            @Valid @RequestBody CreateNoticeReq createNoticeReq
+            @Valid @RequestBody NoticeReq noticeReq
     ) {
-        Notice notice = noticeService.createNotice(createNoticeReq);
+        Notice notice = noticeService.createNotice(noticeReq);
         return ResponseEntity.created(URI.create("/api/v1/notices" + notice.getId())).build();
     }
 
@@ -58,6 +58,16 @@ public class NoticeController implements NoticeApi {
             @PathVariable Long noticeId
     ) {
         noticeService.deleteNotice(noticeId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @Override
+    @PutMapping("/{noticeId}")
+    public ResponseEntity<Void> modifyNotice(
+            @PathVariable Long noticeId,
+            @Valid @RequestBody NoticeReq noticeReq
+    ) {
+        noticeService.updateNotice(noticeId, noticeReq);
         return ResponseEntity.noContent().build();
     }
 }
