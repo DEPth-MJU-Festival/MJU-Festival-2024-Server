@@ -1,0 +1,11 @@
+spring:
+  profiles:
+    # ?? : "h2"  ||  RDS : "rds"? ??
+    active: ["rds", "swagger"]
+
+
+logging:
+  level:
+    org:
+      springframework:
+        security=DEBUG:
