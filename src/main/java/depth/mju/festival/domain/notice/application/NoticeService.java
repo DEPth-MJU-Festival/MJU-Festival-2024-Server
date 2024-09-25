@@ -3,7 +3,10 @@ package depth.mju.festival.domain.notice.application;
 import depth.mju.festival.domain.common.Status;
 import depth.mju.festival.domain.notice.domain.Notice;
 import depth.mju.festival.domain.notice.domain.repository.NoticeRepository;
+import depth.mju.festival.domain.notice.dto.request.CreateNoticeReq;
 import depth.mju.festival.domain.notice.dto.response.NoticeRes;
+import depth.mju.festival.domain.school.domain.School;
+import depth.mju.festival.domain.school.domain.repository.SchoolRepository;
 import depth.mju.festival.global.exception.DefaultException;
 import depth.mju.festival.global.exception.ErrorCode;
 import depth.mju.festival.global.response.PageInfo;
@@ -26,6 +29,7 @@ import java.util.stream.Collectors;
 public class NoticeService {
 
     private final NoticeRepository noticeRepository;
+    private final SchoolRepository schoolRepository;
 
     // 공지 조회
     public PageResponse findAllNotice(int page, int size) {
@@ -61,6 +65,20 @@ public class NoticeService {
     }
 
     // 공지 등록
+    @Transactional
+    public Notice createNotice(CreateNoticeReq noticeReq) {
+        return Notice.builder()
+                .title(noticeReq.getTitle())
+                .content(noticeReq.getContent())
+                .school(findDefaultSchool())
+                .build();
+    }
+
+    private School findDefaultSchool() {
+        return schoolRepository.findById(1L)
+                .orElseThrow(() -> new DefaultException(ErrorCode.NOT_FOUND_ERROR, "학교를 찾을 수 없습니다."));
+    }
+
 
     // 공지 삭제
 
