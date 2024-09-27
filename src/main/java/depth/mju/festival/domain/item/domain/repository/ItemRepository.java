@@ -15,7 +15,7 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     @Query(value =
             "SELECT i " +
                     "FROM Item i " +
-                    "WHERE i.category = :category AND i.status = :status AND i.school.id = 1 " +
+                    "WHERE i.category = :category AND i.status = :status " +
                     "ORDER BY i.createdDate DESC")
     List<Item> findByCategoryAndStatusOrderByCreatedDateDesc(Category category, Status status);
 }
