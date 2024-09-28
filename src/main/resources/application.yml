@@ -1,7 +1,7 @@
 spring:
   profiles:
     # ?? : "h2"  ||  RDS : "rds"? ??
-    active: ["rds", "swagger"]
+    active: ["rds", "swagger", "s3"]
 
 
 logging:
