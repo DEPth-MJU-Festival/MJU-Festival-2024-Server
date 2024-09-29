@@ -68,11 +68,13 @@ public class NoticeService {
     // 공지 등록
     @Transactional
     public Notice createNotice(NoticeReq noticeReq) {
-        return Notice.builder()
+        Notice notice = Notice.builder()
                 .title(noticeReq.getTitle())
                 .content(noticeReq.getContent())
                 .school(findDefaultSchool())
                 .build();
+        noticeRepository.save(notice);
+        return notice;
     }
 
     private School findDefaultSchool() {

@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 
@@ -49,7 +50,11 @@ public class NoticeController implements NoticeApi {
             @Valid @RequestBody NoticeReq noticeReq
     ) {
         Notice notice = noticeService.createNotice(noticeReq);
-        return ResponseEntity.created(URI.create("/api/v1/notices" + notice.getId())).build();
+        URI location = UriComponentsBuilder.fromPath("/api/v1/notices/{noticeId}")
+                .buildAndExpand(notice.getId())
+                .toUri();
+        return ResponseEntity.created(location).build();
+
     }
 
     @Override
