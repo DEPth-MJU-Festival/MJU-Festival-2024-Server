@@ -1,7 +1,7 @@
 spring:
   profiles:
-    # ?? : "h2"  ||  RDS : "rds"? ??
-    active: ["rds", "swagger"]
+    # 로컬: local, 배포: rds 사용
+    active: ["rds", "swagger", "s3"]
 
 
 logging:

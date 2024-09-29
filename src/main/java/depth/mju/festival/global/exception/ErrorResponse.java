@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Getter
 public class ErrorResponse {
 
     @Schema(description = "성공 여부", defaultValue = "false")
