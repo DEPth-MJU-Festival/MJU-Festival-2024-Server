@@ -1,6 +1,7 @@
 package depth.mju.festival.domain.item.presentation;
 
 import depth.mju.festival.domain.item.domain.Category;
+import depth.mju.festival.domain.item.dto.request.CreateItemReq;
 import depth.mju.festival.domain.item.dto.response.ItemRes;
 import depth.mju.festival.global.exception.ErrorResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,10 +13,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Tag(name = "분실물 API", description = "분실물과 관련한 API입니다.")
 public interface ItemApi {
@@ -46,6 +45,21 @@ public interface ItemApi {
     @DeleteMapping("/{itemId}")
     ResponseEntity<Void> deleteLostItem(
             @Parameter(description = "분실물의 id인 itemId를 입력해주세요.", required = true) @PathVariable Long itemId
+    );
+
+    @Operation(summary = "분실물 등록", description = "분실물을 등록합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "201", description = "등록 성공",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Void.class))}),
+            @ApiResponse(
+                    responseCode = "400", description = "등록 실패",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))}),
+    })
+    @PostMapping
+    ResponseEntity<?> registerLostItem(
+            @Parameter(description = "form-data 형식의 이미지를 입력해주세요.", required = true) @RequestPart MultipartFile image,
+            @Parameter(description = "Schemas의 CreateItemReq를 확인해주세요.", required = true) @RequestPart CreateItemReq createItemReq
     );
 
 }
