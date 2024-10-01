@@ -43,10 +43,14 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      # YML 파일 생성
-      - name: create application.yml
+      # 파일 생성
+      - name: create file
         run: |
+          mkdir ./src/main/resources
+          
           cd ./src/main/resources
+          touch ./application.yml
+          echo "${{ secrets.APPLICATION }}" | base64 --decode > ./application.yml
           
           # RDS
           touch ./application-rds.yml
@@ -59,6 +63,10 @@ jobs:
           # S3
           touch ./application-s3.yml
           echo "${{ secrets.APPLICATION_S3 }}" | base64 --decode > ./application-s3.yml
+
+          # KEYSTORE
+          touch ./keystore.p12
+          echo "${{ secrets.KEYSTORE }}" | base64 --decode > ./keystore.p12
 
       # 권한 부여
       - name: Grant execute permission for gradlew
